@@ -1,24 +1,25 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class CursorController : MonoBehaviour
 {
+   public static CursorController cursorController;
+   private IEnumerator coroutineDelayRemoveUIWindow;
 
 
    public Texture2D cursor;
-
    public Texture2D cursorClicked;
-   
    private CursorControls _cursorControls;
-
    private Camera _mainCamera;
-   
 
-   
-   
+ 
+
    private void Awake()
    {
+      cursorController = this;
       _cursorControls = new CursorControls();
       ChangeCursor(cursor);
       Cursor.lockState = CursorLockMode.Confined;
@@ -28,7 +29,9 @@ public class CursorController : MonoBehaviour
    private void Start()
    {
       _cursorControls.Mouse.Click.started += _ => StartedClick();
-      _cursorControls.Mouse.Click.started += _ => EndedClick();
+      _cursorControls.Mouse.Click.performed += _ => EndedClick();
+      
+  
    }
 
 
@@ -60,6 +63,7 @@ public class CursorController : MonoBehaviour
    {
       Ray ray = _mainCamera.ScreenPointToRay(_cursorControls.Mouse.Position.ReadValue<Vector2>());
       RaycastHit hit;
+      
       if (Physics.Raycast(ray, out hit))
       {
          if (hit.collider != null)
@@ -67,14 +71,39 @@ public class CursorController : MonoBehaviour
             if (hit.collider.CompareTag("Connection"))
             {
                hit.collider.GetComponent<Connection>().OpenUIWindow();
-               Debug.Log(hit.collider.name);
+
+               NewDelayRemoveUIWindow();
             }
          }
       }
 
    }
+
+   private void NewDelayRemoveUIWindow()
+   {
+      StopCoroutineDelayRemoveUIWindow();
+               
+      coroutineDelayRemoveUIWindow = DelayRemoveUIWindow();
+               
+      StartCoroutine(coroutineDelayRemoveUIWindow);
+   }
    
+   private IEnumerator DelayRemoveUIWindow()
+   {
+      yield return new WaitForSeconds(3f);
+      
+      NetworkManager.networkManager.RemoveUIWindowConnection();
+      Debug.Log("@@@@@@@@@@");
+   }
+
+   public void StopCoroutineDelayRemoveUIWindow()
+   {
+      if(coroutineDelayRemoveUIWindow != null)
+        StopCoroutine(coroutineDelayRemoveUIWindow);
+   }
    
+
+
    private void ChangeCursor(Texture2D cursorType)
    {
       Cursor.SetCursor(cursorType, Vector2.zero, CursorMode.Auto);

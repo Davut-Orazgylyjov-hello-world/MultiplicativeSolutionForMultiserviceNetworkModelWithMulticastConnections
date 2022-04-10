@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -88,23 +85,12 @@ public class CameraController : MonoBehaviour
         string buttonControlPath = "/Mouse/scroll";
 
         if (context.started)
-        {
             if (context.control.path == buttonControlPath)
-            {
-                Debug.Log(Mouse.current.scroll.ReadValue().normalized);
-                
-                if (Mouse.current.scroll.ReadValue().normalized == new Vector2(0.0f, 1.0f))
-                    Zoom(true);
-                else
-                    Zoom(false);
-            }
-        }
+                Zoom(Mouse.current.scroll.ReadValue().normalized == new Vector2(0.0f, 1.0f));
     }
 
     private void Zoom(bool In)
     {
-        Debug.Log(In);
-        
         if (In)
         {
             Vector3 minVector3 = new Vector3(cameraZoom.position.x, minZoom/speedZoom,  cameraZoom.position.z);
