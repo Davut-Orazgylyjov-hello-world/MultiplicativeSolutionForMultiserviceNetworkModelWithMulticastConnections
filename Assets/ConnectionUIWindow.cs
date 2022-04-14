@@ -25,6 +25,10 @@ public class ConnectionUIWindow : MonoBehaviour
     {
         //   _cursorController()
         Debug.Log("ConnectNet");
+
+        NetworkManager.networkManager.noCreateUIMenu = true;
+        NetworkManager.networkManager.connectionUsing = _motherConnection;
+        NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Create;
         
         EndUIWindowsConnection();
     }

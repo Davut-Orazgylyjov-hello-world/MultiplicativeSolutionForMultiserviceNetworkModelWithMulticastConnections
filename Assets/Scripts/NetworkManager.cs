@@ -3,10 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum ConnectionState
+{
+    Nothing = 0,
+    Create = 1,
+    Remove = 2,
+}
+
 public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager networkManager;
 
+    public float range;
 
     public int xSize;
     public int ySize;
@@ -17,9 +26,17 @@ public class NetworkManager : MonoBehaviour
 
     public Transform spawnConnections;
 
+    public bool noCreateUIMenu;
+    public Connection connectionUsing;
+    
+    
+ 
+
+    public ConnectionState stateNetworkConnection;
+
     private int[,] _sizeNetwork;
 
-    public GameObject _sceneUIWindowConnection;
+    private GameObject _sceneUIWindowConnection;
 
     private void Awake()
     {
@@ -41,7 +58,7 @@ public class NetworkManager : MonoBehaviour
             {
                 GameObject net = Instantiate(networkPrefab, spawnConnections);
 
-                net.transform.position = new Vector3(i*3, 0, j*3);
+                net.transform.position = new Vector3(i*range, 0, j*range);
                 net.name = $"Connection_x{i}y{j}";
             }
         }
@@ -65,4 +82,9 @@ public class NetworkManager : MonoBehaviour
         Destroy(_sceneUIWindowConnection);
         _sceneUIWindowConnection = null;
     }
+
+    // public void AddedNetworkConnection()
+    // {
+    //     Debug.Log("NetworkConnection Added");
+    // }
 }

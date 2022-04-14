@@ -15,7 +15,7 @@ public class CursorController : MonoBehaviour
    private CursorControls _cursorControls;
    private Camera _mainCamera;
 
- 
+
 
    private void Awake()
    {
@@ -25,13 +25,11 @@ public class CursorController : MonoBehaviour
       Cursor.lockState = CursorLockMode.Confined;
       _mainCamera = Camera.main;
    }
-   
+
    private void Start()
    {
       _cursorControls.Mouse.Click.started += _ => StartedClick();
       _cursorControls.Mouse.Click.performed += _ => EndedClick();
-      
-  
    }
 
 
@@ -63,45 +61,67 @@ public class CursorController : MonoBehaviour
    {
       Ray ray = _mainCamera.ScreenPointToRay(_cursorControls.Mouse.Position.ReadValue<Vector2>());
       RaycastHit hit;
-      
+
       if (Physics.Raycast(ray, out hit))
       {
          if (hit.collider != null)
          {
             if (hit.collider.CompareTag("Connection"))
-            {
-               hit.collider.GetComponent<Connection>().OpenUIWindow();
+               ObjectConnection(hit.collider.GetComponent<Connection>());
+            
+         }
+      }
+   }
 
-               NewDelayRemoveUIWindow();
+   private void ObjectConnection(Connection connection)
+   {
+      if (NetworkManager.networkManager.noCreateUIMenu == false)
+      {
+         connection.OpenUIWindow();
+
+         NewDelayRemoveUIWindow();
+      }
+      else
+      {
+         if (NetworkManager.networkManager.stateNetworkConnection != ConnectionState.Nothing)
+         {
+            switch (NetworkManager.networkManager.stateNetworkConnection)
+            {
+               case ConnectionState.Create:
+                  NetworkManager.networkManager.connectionUsing.AddConnection(connection);
+                  break;
+               
+               case ConnectionState.Remove:
+                  NetworkManager.networkManager.connectionUsing.RemoveConnection(connection);
+                  break;
             }
          }
       }
-
    }
 
    private void NewDelayRemoveUIWindow()
    {
       StopCoroutineDelayRemoveUIWindow();
-               
+
       coroutineDelayRemoveUIWindow = DelayRemoveUIWindow();
-               
+
       StartCoroutine(coroutineDelayRemoveUIWindow);
    }
-   
+
    private IEnumerator DelayRemoveUIWindow()
    {
       yield return new WaitForSeconds(3f);
-      
+
       NetworkManager.networkManager.RemoveUIWindowConnection();
       Debug.Log("@@@@@@@@@@");
    }
 
    public void StopCoroutineDelayRemoveUIWindow()
    {
-      if(coroutineDelayRemoveUIWindow != null)
-        StopCoroutine(coroutineDelayRemoveUIWindow);
+      if (coroutineDelayRemoveUIWindow != null)
+         StopCoroutine(coroutineDelayRemoveUIWindow);
    }
-   
+
 
 
    private void ChangeCursor(Texture2D cursorType)

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MulticastConnection : MonoBehaviour
+public class NetworkConnection : MonoBehaviour
 {
 
     // [Header("Users")] public GameObject[] users;
