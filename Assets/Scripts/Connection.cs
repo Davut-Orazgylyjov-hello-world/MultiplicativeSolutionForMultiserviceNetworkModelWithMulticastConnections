@@ -11,11 +11,15 @@ public class Connection : MonoBehaviour
 
     public GameObject visualSelected;
 
+    public GameObject visualConnectionIdle;
+    
     public Connection[] connections;
 
     public NetworkConnection[] networkConnections;
 
     public GameObject prefabNetwork;
+    
+    
 
     public void OpenUIWindow()
     {
@@ -31,6 +35,11 @@ public class Connection : MonoBehaviour
     public void SelectedActive(bool active)
     {
         visualSelected.SetActive(active);
+    }
+
+    public void VisualConnectionIdle(bool active)
+    {
+        visualConnectionIdle.SetActive(active);
     }
 
     public void AddConnection(Connection newConnection)
@@ -52,6 +61,8 @@ public class Connection : MonoBehaviour
         
         NetworkManager.networkManager.noCreateUIMenu = false;
         NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Nothing;
+
+        VisualConnectionIdle(false);
         
         Debug.Log("Added new connection");
     }
