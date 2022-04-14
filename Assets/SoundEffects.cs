@@ -9,6 +9,7 @@ public class SoundEffects : MonoBehaviour
     
     public AudioClip error;
     public AudioClip connection;
+    public AudioClip disconnection;
     
     
     private AudioSource _audioSource;
@@ -32,6 +33,12 @@ public class SoundEffects : MonoBehaviour
     public void PlayConnection()
     {
         _audioSource.clip = connection;
+        _audioSource.Play();
+    }
+
+    public void PlayDisconnection()
+    {
+        _audioSource.clip = disconnection;
         _audioSource.Play();
     }
 }

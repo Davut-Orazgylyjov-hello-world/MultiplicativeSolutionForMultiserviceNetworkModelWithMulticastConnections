@@ -12,6 +12,8 @@ public class Connection : MonoBehaviour
     public GameObject visualSelected;
 
     public GameObject visualConnectionIdle;
+
+    public GameObject visualDisconnectionIdle;
     
     public Connection[] connections;
 
@@ -40,6 +42,11 @@ public class Connection : MonoBehaviour
     public void VisualConnectionIdle(bool active)
     {
         visualConnectionIdle.SetActive(active);
+    }
+
+    public void VisualDisconnectionIdle(bool active)
+    {
+        visualDisconnectionIdle.SetActive(active);
     }
 
     public void AddConnection(Connection newConnection)
@@ -85,9 +92,46 @@ public class Connection : MonoBehaviour
         }
     }
 
-    public void RemoveConnection(Connection newConnection)
+
+
+    public void RemoveConnection(Connection removeConnection)
     {
-        Debug.Log($"Removed connection {newConnection.gameObject.name}");
+        VisualDisconnectionIdle(false);
+
+        removeConnection.DeleteConnection(this);
+        DeleteConnection(removeConnection);
+        
+        SoundEffects.soundEffects.PlayDisconnection();
+        
+        NetworkManager.networkManager.noCreateUIMenu = false;
+        NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Nothing;
+        
+        Debug.Log($"Removed connection {removeConnection.gameObject.name}");
+    }
+
+    private void DeleteConnection(Connection removeConnection)
+    {
+        for (int i = 0; i < connections.Length; i++)
+        {
+            if (connections[i] == removeConnection)
+            {
+                connections[i] = null;
+                Destroy(networkConnections[i].gameObject);
+                networkConnections[i] = null;
+                return;
+            }
+        }
+    }
+
+    public bool HaveConnections()
+    {
+        foreach (var connection in connections)
+        {
+            if (connection != null)
+                return true;
+        }
+        
+        return false;
     }
     
 }

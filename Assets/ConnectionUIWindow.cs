@@ -23,7 +23,6 @@ public class ConnectionUIWindow : MonoBehaviour
     
     public void CommandConnectNet()
     {
-        //   _cursorController()
         Debug.Log("ConnectNet");
 
         _motherConnection.VisualConnectionIdle(true);
@@ -37,10 +36,22 @@ public class ConnectionUIWindow : MonoBehaviour
     
     public void CommandDisconnectNet()
     {
-        
-        Debug.Log("DisconnectNet");
-        
-        EndUIWindowsConnection();
+        if (_motherConnection.HaveConnections())
+        {
+            Debug.Log("DisconnectNet");
+
+            _motherConnection.VisualDisconnectionIdle(true);
+
+            NetworkManager.networkManager.noCreateUIMenu = true;
+            NetworkManager.networkManager.connectionUsing = _motherConnection;
+            NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Remove;
+            
+            EndUIWindowsConnection();
+        }
+        else
+        {
+            SoundEffects.soundEffects.PlayError();
+        }
     }
     
     public void CommandDestroyConnection()

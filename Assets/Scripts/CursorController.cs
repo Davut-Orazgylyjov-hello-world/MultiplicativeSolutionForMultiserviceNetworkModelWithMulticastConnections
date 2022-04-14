@@ -81,20 +81,25 @@ public class CursorController : MonoBehaviour
 
          NewDelayRemoveUIWindow();
       }
-      else
+      else if (NetworkManager.networkManager.connectionUsing != connection)
       {
-         if (NetworkManager.networkManager.stateNetworkConnection != ConnectionState.Nothing)
+         ActivateCommandConnection(connection);
+      }
+   }
+
+   private void ActivateCommandConnection(Connection connection)
+   {
+      if (NetworkManager.networkManager.stateNetworkConnection != ConnectionState.Nothing)
+      {
+         switch (NetworkManager.networkManager.stateNetworkConnection)
          {
-            switch (NetworkManager.networkManager.stateNetworkConnection)
-            {
-               case ConnectionState.Create:
-                  NetworkManager.networkManager.connectionUsing.AddConnection(connection);
-                  break;
-               
-               case ConnectionState.Remove:
-                  NetworkManager.networkManager.connectionUsing.RemoveConnection(connection);
-                  break;
-            }
+            case ConnectionState.Create:
+               NetworkManager.networkManager.connectionUsing.AddConnection(connection);
+               break;
+
+            case ConnectionState.Remove:
+               NetworkManager.networkManager.connectionUsing.RemoveConnection(connection);
+               break;
          }
       }
    }

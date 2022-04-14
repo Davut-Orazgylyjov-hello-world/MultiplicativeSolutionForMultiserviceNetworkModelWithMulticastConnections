@@ -558,7 +558,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929351286}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: -10, y: 10, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 963194228}
@@ -577,10 +577,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1918aa641c018624f8d30f5a30565ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraZoom: {fileID: 963194228}
-  maxZoom: 50
-  minZoom: 10
-  speedZoom: 3
+  cameras:
+  - {fileID: 963194227}
+  - {fileID: 1894876488}
+  maxZoom: 60
+  minZoom: 15
   movementTime: 5
 --- !u!114 &929351289
 MonoBehaviour:
@@ -772,7 +773,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 37.5
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1618,6 +1619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   error: {fileID: 8300000, guid: 73121c92dbd7b9d44810bc48bfe1e301, type: 3}
   connection: {fileID: 8300000, guid: 3041f176cff9d244ab14901fc2b99bb4, type: 3}
+  disconnection: {fileID: 8300000, guid: 61b0d60ff2aba3f4bb807f056b2dbd03, type: 3}
 --- !u!4 &1550600628
 Transform:
   m_ObjectHideFlags: 0
@@ -1866,7 +1868,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 37.5
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

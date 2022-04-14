@@ -3,14 +3,11 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-
-    [Header("Zoom")]
-    public Transform cameraZoom;
+    public Camera[] cameras;
     public float maxZoom;
     public float minZoom;
-    public float speedZoom;
-        
-     Camera cam;
+
+    Camera cam;
  
     Vector3 newPosition;
     [SerializeField] private float movementTime = 5f;
@@ -93,13 +90,13 @@ public class CameraController : MonoBehaviour
     {
         if (In)
         {
-            Vector3 minVector3 = new Vector3(cameraZoom.position.x, minZoom/speedZoom,  cameraZoom.position.z);
-            cameraZoom.position = Vector3.Lerp(cameraZoom.position,minVector3, minVector3.y /cameraZoom.position.y);
+            foreach (var cam in cameras)
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, minZoom, minZoom / cam.fieldOfView);
         }
         else
         {
-            Vector3 maxVector3 = new Vector3(transform.position.x, maxZoom/speedZoom,  cameraZoom.position.z);
-            cameraZoom.position = Vector3.Lerp(cameraZoom.position,maxVector3,cameraZoom.position.y / maxVector3.y);
+            foreach (var cam in cameras)
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, maxZoom, cam.fieldOfView / maxZoom );
         }
     }
  
