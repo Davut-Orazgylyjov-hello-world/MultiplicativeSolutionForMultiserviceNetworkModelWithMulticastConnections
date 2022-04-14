@@ -5,25 +5,22 @@ using UnityEngine;
 
 public class NetworkConnection : MonoBehaviour
 {
-
-    // [Header("Users")] public GameObject[] users;
-    // [Header("Server")] public GameObject[] servers;
     [Header("Connections")] public Transform aConnection, bConnection;
     private LineRenderer _lineRendererConnection;
 
 
-    private void Start()
+    private void Awake()
     {
         _lineRendererConnection = GetComponent<LineRenderer>();
     }
 
 
-    private void Update()
-    {
-        Connection();
-    }
+    // private void Update()
+    // {
+    //     Connection();
+    // }
 
-    private void Connection()
+    public void Connection()
     {
         _lineRendererConnection.SetPosition(0, aConnection.position);
         _lineRendererConnection.SetPosition(1, bConnection.position);

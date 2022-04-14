@@ -15,6 +15,8 @@ public class Connection : MonoBehaviour
 
     public NetworkConnection[] networkConnections;
 
+    public GameObject prefabNetwork;
+
     public void OpenUIWindow()
     {
       
@@ -43,22 +45,30 @@ public class Connection : MonoBehaviour
                     return;
                 }
         }
+        
+        newConnection.SetConnection(this);
+        SetConnection(newConnection);
+        SoundEffects.soundEffects.PlayConnection();
+        
+        NetworkManager.networkManager.noCreateUIMenu = false;
+        NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Nothing;
+        
+        Debug.Log("Added new connection");
+    }
 
+    private void SetConnection(Connection setConnection)
+    {
         //find clear connection
         for (int i = 0; i < connections.Length; i++)
         {
-            Debug.Log(2);
-
             if (connections[i] == null)
             {
-                connections[i] = newConnection;
-
-
-                SoundEffects.soundEffects.PlayConnection();
-                Debug.Log("Added new connection");
-
-                NetworkManager.networkManager.noCreateUIMenu = false;
-                NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Nothing;
+                connections[i] = setConnection;
+                GameObject objNet = Instantiate(prefabNetwork, transform);
+                networkConnections[i] = objNet.GetComponent<NetworkConnection>();
+                networkConnections[i].aConnection = transform;
+                networkConnections[i].bConnection = connections[i].transform;
+                networkConnections[i].Connection();
                 return;
             }
         }
