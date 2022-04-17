@@ -54,16 +54,12 @@ public class ConnectionUIWindow : MonoBehaviour
         }
     }
     
-    public void CommandDestroyConnection()
-    {
-        Debug.Log("DestroyConnection");
-        
-        EndUIWindowsConnection();
-    }
     
     public void CommandAddUser()
     {
         Debug.Log("AddUser");
+        
+        _motherConnection.AddUser();
         
         EndUIWindowsConnection();
     }
@@ -72,6 +68,8 @@ public class ConnectionUIWindow : MonoBehaviour
     {
         Debug.Log("AddSource");
 
+        _motherConnection.AddSourceInformation();
+        
         EndUIWindowsConnection();
     }
 

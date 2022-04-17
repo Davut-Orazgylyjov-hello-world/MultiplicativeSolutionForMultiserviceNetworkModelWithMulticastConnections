@@ -14,15 +14,15 @@ public class NetworkConnection : MonoBehaviour
         _lineRendererConnection = GetComponent<LineRenderer>();
     }
 
-
-    // private void Update()
-    // {
-    //     Connection();
-    // }
-
     public void Connection()
     {
         _lineRendererConnection.SetPosition(0, aConnection.position);
         _lineRendererConnection.SetPosition(1, bConnection.position);
+        NetworkManager.networkManager.AddedNewNetworkConnection(this);
+    }
+
+    public void Disconnection()
+    {
+        NetworkManager.networkManager.RemoveConnection(this);
     }
 }

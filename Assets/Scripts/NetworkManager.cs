@@ -13,6 +13,10 @@ public enum ConnectionState
 
 public class NetworkManager : MonoBehaviour
 {
+    [Header("Users")] public User[] users;
+    [Header("SourcesInformation")] public SourceInformation[] sourceInformation;
+    [Header("NetworkConnection")] public NetworkConnection[] networkConnection;
+    
     public static NetworkManager networkManager;
 
     public float range;
@@ -87,4 +91,53 @@ public class NetworkManager : MonoBehaviour
     // {
     //     Debug.Log("NetworkConnection Added");
     // }
+
+    public void AddedNewUser(User takeUser)
+    {
+        for (int i = 0; i < users.Length; i++)
+        {
+            if (users[i] == null)
+            {
+                users[i] = takeUser;
+                break;
+            }
+        }
+    }
+
+    public void AddedNewSourceInformation(SourceInformation takeSourceInformation)
+    {
+        for (int i = 0; i < sourceInformation.Length; i++)
+        {
+            if (sourceInformation[i] == null)
+            {
+                sourceInformation[i] = takeSourceInformation;
+                break;
+            }
+        }
+    }
+
+    public void AddedNewNetworkConnection(NetworkConnection takeNetworkConnection)
+    {
+        for (int i = 0; i < networkConnection.Length; i++)
+        {
+            if (networkConnection[i] == null)
+            {
+                networkConnection[i] = takeNetworkConnection;
+                break;
+            }
+        }
+    }
+
+    public void RemoveConnection(NetworkConnection removeConnect)
+    {
+        for (int i = 0; i < networkConnection.Length; i++)
+        {
+            if (networkConnection[i] == removeConnect)
+            {
+                Destroy(networkConnection[i].gameObject);
+                networkConnection[i] = null;
+                return;
+            }
+        }
+    }
 }
