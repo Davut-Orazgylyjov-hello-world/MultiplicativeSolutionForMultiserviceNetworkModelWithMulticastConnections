@@ -103,6 +103,18 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
+    
+    public void RemoveUser(User removeUser)
+    {
+        for (int i = 0; i < users.Length; i++)
+        {
+            if (users[i] == removeUser)
+            {
+                users[i] = null;
+                return;
+            }
+        }
+    }
 
     public void AddedNewSourceInformation(SourceInformation takeSourceInformation)
     {
@@ -112,6 +124,18 @@ public class NetworkManager : MonoBehaviour
             {
                 sourceInformation[i] = takeSourceInformation;
                 break;
+            }
+        }
+    }
+    
+    public void RemoveSourceInformation(SourceInformation removeSourceInformation)
+    {
+        for (int i = 0; i < sourceInformation.Length; i++)
+        {
+            if (sourceInformation[i] == removeSourceInformation)
+            {
+                sourceInformation[i] = null;
+                return;
             }
         }
     }

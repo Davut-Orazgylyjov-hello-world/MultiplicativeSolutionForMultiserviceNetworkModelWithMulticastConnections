@@ -57,8 +57,6 @@ public class ConnectionUIWindow : MonoBehaviour
     
     public void CommandAddUser()
     {
-        Debug.Log("AddUser");
-        
         _motherConnection.AddUser();
         
         EndUIWindowsConnection();
@@ -66,9 +64,20 @@ public class ConnectionUIWindow : MonoBehaviour
     
     public void CommandAddSource()
     {
-        Debug.Log("AddSource");
-
         _motherConnection.AddSourceInformation();
+        
+        EndUIWindowsConnection();
+    }
+    
+    public void CommandDeleteUser()
+    {
+        _motherConnection.DeleteUser();
+        
+        EndUIWindowsConnection();
+    }
+    public void CommandDeleteSource()
+    {
+        _motherConnection.DeleteSourceInformation();
         
         EndUIWindowsConnection();
     }

@@ -255,6 +255,26 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  users:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  sourceInformation:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   prefabUser: {fileID: 2701890835339358778, guid: cbd97bb904bb2b3449093140b219d303, type: 3}
   prefabSourceInformation: {fileID: 8631831566982383590, guid: 99e3897a7fdc8e147aa4c2f6855e8a09, type: 3}
   spawn: {fileID: 7341245976014070395}

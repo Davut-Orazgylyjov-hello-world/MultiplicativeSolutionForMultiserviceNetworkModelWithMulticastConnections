@@ -118,7 +118,6 @@ public class CursorController : MonoBehaviour
       yield return new WaitForSeconds(3f);
 
       NetworkManager.networkManager.RemoveUIWindowConnection();
-      Debug.Log("@@@@@@@@@@");
    }
 
    public void StopCoroutineDelayRemoveUIWindow()

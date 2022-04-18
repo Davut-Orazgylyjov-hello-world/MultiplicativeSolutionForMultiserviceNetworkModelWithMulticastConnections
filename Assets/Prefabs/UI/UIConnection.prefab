@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1010181699106196123}
         m_TargetAssemblyTypeName: ConnectionUIWindow, Assembly-CSharp
-        m_MethodName: CommandAddUser
+        m_MethodName: CommandDeleteUser
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -581,7 +581,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1010181699106196123}
         m_TargetAssemblyTypeName: ConnectionUIWindow, Assembly-CSharp
-        m_MethodName: CommandAddSource
+        m_MethodName: CommandDeleteSource
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

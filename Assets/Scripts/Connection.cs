@@ -21,6 +21,9 @@ public class Connection : MonoBehaviour
 
 
     [Header("Users & SourceInformation")] public GameObject[] usersAndSourceInformation;
+    public User[] users;
+    public SourceInformation[] sourceInformation;
+    
     public GameObject prefabUser;
     public GameObject prefabSourceInformation;
     public Transform spawn;
@@ -163,11 +166,27 @@ public class Connection : MonoBehaviour
         usersAndSourceInformation[spawned].transform.localPosition = new Vector3(0, spawned + 1.5f, 0);
         
         NetworkManager.networkManager.AddedNewUser(usersAndSourceInformation[spawned].GetComponent<User>());
+        SaveUser(usersAndSourceInformation[spawned].GetComponent<User>());
 
         SoundEffects.soundEffects.Created();
         
         spawned++;
     }
+
+    private void SaveUser(User saveUser)
+    {
+        //find clear user place
+        for (int i = 0; i < users.Length; i++)
+        {
+            if (users[i] == null)
+            {
+                users[i] = saveUser;
+                return;
+            }
+        }
+    }
+
+   
 
     public void AddSourceInformation()
     {
@@ -175,9 +194,105 @@ public class Connection : MonoBehaviour
         usersAndSourceInformation[spawned].transform.localPosition = new Vector3(0, spawned + 1.5f, 0);
         
         NetworkManager.networkManager.AddedNewSourceInformation( usersAndSourceInformation[spawned].GetComponent<SourceInformation>());
+        SaveSourceInformation(usersAndSourceInformation[spawned].GetComponent<SourceInformation>());
         
         SoundEffects.soundEffects.Created();
         
         spawned++;
     }
+
+    private void SaveSourceInformation(SourceInformation saveSourceInformation)
+    {
+        //find clear sourceInformation place
+        for (int i = 0; i < sourceInformation.Length; i++)
+        {
+            if (sourceInformation[i] == null)
+            {
+                sourceInformation[i] = saveSourceInformation;
+                return;
+            }
+        }
+    }
+    
+    public void DeleteUser()
+    {
+        //find user
+        for (int i = 0; i < users.Length; i++)
+        {
+            if (users[i] != null)
+            {
+                NetworkManager.networkManager.RemoveUser(users[i]);
+                
+                for (int j = 0; j < usersAndSourceInformation.Length; j++)
+                    if (usersAndSourceInformation[j] == users[i].gameObject)
+                        usersAndSourceInformation[j] = null;
+                
+                Destroy(users[i].gameObject);    
+                
+                users[i] = null;
+                
+                StreamlineUsersAndSourceInformation();
+                Debug.Log("Delete user");
+                return;
+            }
+        }
+    }
+    
+    public void DeleteSourceInformation()
+    {
+        //find sourceInformation
+        for (int i = 0; i < sourceInformation.Length; i++)
+        {
+            if (sourceInformation[i] != null)
+            {
+                NetworkManager.networkManager.RemoveSourceInformation(sourceInformation[i]);
+                
+                for (int j = 0; j < usersAndSourceInformation.Length; j++)
+                    if (usersAndSourceInformation[j] == sourceInformation[i].gameObject)
+                        usersAndSourceInformation[j] = null;
+         
+                Destroy(sourceInformation[i].gameObject);
+                
+                sourceInformation[i] = null;
+                
+                StreamlineUsersAndSourceInformation();
+                Debug.Log("Delete Delete Source Information");
+                return;
+            }
+        }
+    }
+
+    private void StreamlineUsersAndSourceInformation()
+    {
+        //order array
+        for (int i = 0; i < usersAndSourceInformation.Length; i++)
+        {
+            if (usersAndSourceInformation[i] != null)
+            {
+                int nearestFree = NullUsersAndSourceInformation();
+                
+                if (i > nearestFree)
+                {
+                    usersAndSourceInformation[nearestFree] = usersAndSourceInformation[i];
+                    usersAndSourceInformation[nearestFree].transform.localPosition = new Vector3(0, nearestFree + 1.5f, 0);
+                    usersAndSourceInformation[i] = null;
+                }
+            }
+        }
+
+        spawned--;
+        Debug.Log("Sorted Array");
+    }
+
+    private int NullUsersAndSourceInformation()
+    {
+        for (int i = 0; i < usersAndSourceInformation.Length; i++)
+            if (usersAndSourceInformation[i] == null)
+                return i;
+        
+        Debug.LogError("no more places");
+        return 0;
+    }
+    
+    
 }

@@ -2002,7 +2002,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: 0
-  postEffects: 0
 --- !u!4 &1594818002
 Transform:
   m_ObjectHideFlags: 0

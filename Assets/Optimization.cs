@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Optimization : MonoBehaviour
@@ -8,8 +9,9 @@ public class Optimization : MonoBehaviour
     public static Optimization optimization;
     
     public bool light;
-    public bool postEffects;
+   // public bool postEffects;
     
+
 
     private void Awake()
     {
@@ -19,6 +21,6 @@ public class Optimization : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 }
