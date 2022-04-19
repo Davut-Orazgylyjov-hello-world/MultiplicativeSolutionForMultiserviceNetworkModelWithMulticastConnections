@@ -26,7 +26,6 @@ public class NetworkManager : MonoBehaviour
 
 
     [Header("network")] public GameObject networkPrefab;
-    //Here set massive of created networks;
 
     public Transform spawnConnections;
 
@@ -88,11 +87,7 @@ public class NetworkManager : MonoBehaviour
         Destroy(_sceneUIWindowConnection);
         _sceneUIWindowConnection = null;
     }
-
-    // public void AddedNetworkConnection()
-    // {
-    //     Debug.Log("NetworkConnection Added");
-    // }
+    
 
     public void AddedNewUser(User takeUser)
     {
@@ -195,7 +190,10 @@ public class NetworkManager : MonoBehaviour
         for (int i = 0; i < sourceInformation.Length; i++)
         {
             if (sourceInformation[i] == null)
-                continue;
+            {
+                NetworkInformation.netInfo.SetS(i);
+                break;
+            }
 
             sourceInformation[i].SetInfoUI($"{i + 1}");
         }
@@ -204,7 +202,10 @@ public class NetworkManager : MonoBehaviour
         for (int i = 0; i < networkConnection.Length; i++)
         {
             if (networkConnection[i] == null)
-                continue;
+            {
+                NetworkInformation.netInfo.SetL(i);
+                break;
+            }
 
             networkConnection[i].SetInfoUI($"{i + 1}");
         }
@@ -284,6 +285,4 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
-    
-
 }
