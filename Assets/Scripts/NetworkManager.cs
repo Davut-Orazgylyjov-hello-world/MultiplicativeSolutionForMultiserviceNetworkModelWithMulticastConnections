@@ -16,7 +16,7 @@ public class NetworkManager : MonoBehaviour
     [Header("Users")] public User[] users;
     [Header("SourcesInformation")] public SourceInformation[] sourceInformation;
     [Header("NetworkConnection")] public NetworkConnection[] networkConnection;
-    
+
     public static NetworkManager networkManager;
 
     public float range;
@@ -32,15 +32,17 @@ public class NetworkManager : MonoBehaviour
 
     public bool noCreateUIMenu;
     public Connection connectionUsing;
-    
-    
- 
+
+
+
 
     public ConnectionState stateNetworkConnection;
 
     private int[,] _sizeNetwork;
 
     private GameObject _sceneUIWindowConnection;
+
+    private string _alphabetRussian = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 
     private void Awake()
     {
@@ -62,7 +64,7 @@ public class NetworkManager : MonoBehaviour
             {
                 GameObject net = Instantiate(networkPrefab, spawnConnections);
 
-                net.transform.position = new Vector3(i*range, 0, j*range);
+                net.transform.position = new Vector3(i * range, 0, j * range);
                 net.name = $"Connection_x{i}y{j}";
             }
         }
@@ -82,7 +84,7 @@ public class NetworkManager : MonoBehaviour
     {
         if (_sceneUIWindowConnection != null)
             _sceneUIWindowConnection.GetComponent<ConnectionUIWindow>().DeselectUIWindow();
-        
+
         Destroy(_sceneUIWindowConnection);
         _sceneUIWindowConnection = null;
     }
@@ -99,11 +101,12 @@ public class NetworkManager : MonoBehaviour
             if (users[i] == null)
             {
                 users[i] = takeUser;
+                UpdateGameUI();
                 break;
             }
         }
     }
-    
+
     public void RemoveUser(User removeUser)
     {
         for (int i = 0; i < users.Length; i++)
@@ -111,6 +114,8 @@ public class NetworkManager : MonoBehaviour
             if (users[i] == removeUser)
             {
                 users[i] = null;
+                SortUsers();
+                UpdateGameUI();
                 return;
             }
         }
@@ -123,11 +128,12 @@ public class NetworkManager : MonoBehaviour
             if (sourceInformation[i] == null)
             {
                 sourceInformation[i] = takeSourceInformation;
+                UpdateGameUI();
                 break;
             }
         }
     }
-    
+
     public void RemoveSourceInformation(SourceInformation removeSourceInformation)
     {
         for (int i = 0; i < sourceInformation.Length; i++)
@@ -135,6 +141,8 @@ public class NetworkManager : MonoBehaviour
             if (sourceInformation[i] == removeSourceInformation)
             {
                 sourceInformation[i] = null;
+                SortSourceInformation();
+                UpdateGameUI();
                 return;
             }
         }
@@ -147,6 +155,7 @@ public class NetworkManager : MonoBehaviour
             if (networkConnection[i] == null)
             {
                 networkConnection[i] = takeNetworkConnection;
+                UpdateGameUI();
                 break;
             }
         }
@@ -160,8 +169,121 @@ public class NetworkManager : MonoBehaviour
             {
                 Destroy(networkConnection[i].gameObject);
                 networkConnection[i] = null;
+                SortNetworkConnection();
+                UpdateGameUI();
                 return;
             }
         }
     }
+
+    private void UpdateGameUI()
+    {
+
+        for (int i = 0; i < users.Length; i++)
+        {
+            if (users[i] == null)
+                break;
+
+            if (i < _alphabetRussian.Length)
+                users[i].SetInfoUI($"{_alphabetRussian[i]}");
+            else
+                users[i].SetInfoUI($"{_alphabetRussian[0] + "" + (i - _alphabetRussian.Length)}");
+        }
+
+
+
+        for (int i = 0; i < sourceInformation.Length; i++)
+        {
+            if (sourceInformation[i] == null)
+                continue;
+
+            sourceInformation[i].SetInfoUI($"{i + 1}");
+        }
+
+
+        for (int i = 0; i < networkConnection.Length; i++)
+        {
+            if (networkConnection[i] == null)
+                continue;
+
+            networkConnection[i].SetInfoUI($"{i + 1}");
+        }
+
+    }
+    
+    
+    private void SortUsers()
+    {
+        for (int i = 0; i < users.Length - 1; i++)
+        {
+            if (users[i] == null)
+            {
+                bool endSort = true;
+                
+                for (int j = i + 1; j < users.Length; j++)
+                {
+                    if (users[j] != null)
+                    {
+                        users[i] = users[j];
+                        users[j] = null;
+                        endSort = false;
+                        break;
+                    }
+                }
+                
+                if(endSort)
+                    break;
+            }
+        }
+    }
+    private void SortSourceInformation()
+    {
+        for (int i = 0; i < sourceInformation.Length - 1; i++)
+        {
+            if (sourceInformation[i] == null)
+            {
+                bool endSort = true;
+                
+                for (int j = i + 1; j < sourceInformation.Length; j++)
+                {
+                    if (sourceInformation[j] != null)
+                    {
+                        sourceInformation[i] = sourceInformation[j];
+                        sourceInformation[j] = null;
+                        endSort = false;
+                        break;
+                    }
+                }
+                
+                if(endSort)
+                    break;
+            }
+        }
+    }
+    private void SortNetworkConnection()
+    {
+        for (int i = 0; i < networkConnection.Length - 1; i++)
+        {
+            if (networkConnection[i] == null)
+            {
+                bool endSort = true;
+                
+                for (int j = i + 1; j < networkConnection.Length; j++)
+                {
+                    if (networkConnection[j] != null)
+                    {
+                        networkConnection[i] = networkConnection[j];
+                        networkConnection[j] = null;
+                        endSort = false;
+                        break;
+                    }
+                }
+                
+                if(endSort)
+                    break;
+            }
+        }
+    }
+    
+
 }

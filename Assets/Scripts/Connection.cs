@@ -256,7 +256,7 @@ public class Connection : MonoBehaviour
                 sourceInformation[i] = null;
                 
                 StreamlineUsersAndSourceInformation();
-                Debug.Log("Delete Delete Source Information");
+                Debug.Log("Delete Source Information");
                 return;
             }
         }
@@ -291,8 +291,6 @@ public class Connection : MonoBehaviour
                 return i;
         
         Debug.LogError("no more places");
-        return 0;
+        return -1;
     }
-    
-    
 }

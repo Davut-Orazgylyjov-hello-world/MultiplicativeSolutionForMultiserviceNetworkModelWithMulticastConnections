@@ -30,4 +30,9 @@ public class NetworkConnection : MonoBehaviour
         NetworkManager.networkManager.RemoveConnection(this);
     }
 
+    public void SetInfoUI(string info)
+    {
+        infoUI.UpdateInfoUI(info);
+    }
+
 }

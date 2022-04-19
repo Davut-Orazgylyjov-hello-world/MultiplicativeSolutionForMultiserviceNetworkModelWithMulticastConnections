@@ -11,13 +11,10 @@ public class InfoUI : MonoBehaviour
     
     public void SetPositionBetweenTwoTransformsUI(Transform a, Transform b)
     {
-        var aPosition = a.localPosition;
-        var bPosition = b.localPosition;
-        
-        infoUITransform.position = new Vector3(
-            bPosition.x - aPosition.x,
-            bPosition.y - aPosition.y,
-            bPosition.z - aPosition.z);
+        var aPosition = a.position;
+        var bPosition = b.position;
+
+        infoUITransform.position = Vector3.Lerp(bPosition, aPosition, 0.5f);
     }
 
     public void UpdateInfoUI(string id)
