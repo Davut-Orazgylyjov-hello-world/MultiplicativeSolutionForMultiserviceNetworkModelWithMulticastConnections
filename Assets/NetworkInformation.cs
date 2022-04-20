@@ -12,7 +12,8 @@ public class NetworkInformation : MonoBehaviour
 
     private NetworkManager _netManager;
 
-    private string _wayToUsers;
+    public string[] _wayToUsers;
+    private string _debugWay;
 
 
     private void Awake()
@@ -64,68 +65,106 @@ public class NetworkInformation : MonoBehaviour
             if (conMother.connections[i] == null)
                 break;
             
-            SaveWay(conMother.networkConnections[i].nameNetworkConnection);
-
-            if (conMother != conMother.connections[i])
+            //find network connection
+            for (int j = 0; j < conMother.networkConnections.Length; j++)
             {
-                SaveWay(conMother.connections[i].networkConnections[i].nameNetworkConnection);
-                
-                Connection nextCon = RecursiveConnections(conMother, conMother.connections[i]);
-
-                if (conMother != nextCon)
+                if( conMother.networkConnections[i] == conMother.connections[i].networkConnections[j])
                 {
+                    SaveWay(conMother.connections[i].networkConnections[j].nameNetworkConnection);
+                    break;
+                }
+            }
+            
+            RecursiveConnections(conMother, conMother.connections[i], conMother);
+        }
+    }
 
-                    for (int j = 0; j < nextCon.users.Length; j++)
+
+    private void RecursiveConnections(Connection conMother, Connection currentConnection, Connection conPrevious)
+    {
+        
+     //   SaveWay(currentConnection.networkConnections[].nameNetworkConnection);
+        
+        //check have we there users
+        for (int i = 0; i < currentConnection.users.Length; i++)
+        {
+            if (currentConnection.users[i] == null)
+                break;
+
+            SetWay();
+        }
+
+        for (int i = 0; i < currentConnection.connections.Length; i++)
+        {
+            if (currentConnection.connections[i] == null)
+            {
+                ResumeWay();
+                break;
+            }
+
+            for (int j = 0; j < currentConnection.networkConnections.Length; j++)
+            {
+                if( currentConnection.networkConnections[i] == currentConnection.connections[i].networkConnections[j])
+                {
+                    if (CanGoToWay(currentConnection.networkConnections[i]))
                     {
-                        if (nextCon.users[j] == null)
-                            break;
+                        SaveWay(currentConnection.networkConnections[i].nameNetworkConnection);
 
-                        SetWay();
-                     
-                        Debug.Log(nextCon.users[j].nameUser);
+                        if (conMother != currentConnection.connections[i] &&
+                            currentConnection.connections[i] != conPrevious)
+                            RecursiveConnections(conMother, currentConnection.connections[i], currentConnection);
+
+                        break;
                     }
                 }
             }
         }
     }
 
-    private Connection RecursiveConnections(Connection conMother, Connection currentConnection)
+    private bool CanGoToWay(NetworkConnection netCon)
     {
-
-        //check have we there users
-        for (int i = 0; i < currentConnection.users.Length; i++)
+        foreach (var t in _wayToUsers)
         {
-            if (currentConnection.users[i] == null)
-                break;
-            
-            return currentConnection;
+            if (netCon.nameNetworkConnection == t)
+                return false;
         }
 
-        for (int i = 0; i < currentConnection.connections.Length; i++)
-        { 
-            Connection nextConnection = RecursiveConnections(conMother,currentConnection.connections[i]);
-           // if(nextConnection.users)
-           
-           SaveWay(nextConnection.networkConnections[i].nameNetworkConnection);
-        }
-
-        ResumeWay();
-        return conMother;
+        return true;
     }
 
     private void SaveWay(string way)
     {
-        _wayToUsers += way+",";
+        for (int i = 0; i < _wayToUsers.Length; i++)
+        {
+            if (_wayToUsers[i] == "")
+            {
+                _wayToUsers[i] = way;
+                break;
+            }
+        }
     }
-
+    
     private void SetWay()
     {
-        Debug.Log(_wayToUsers);
-        ResumeWay();
+       // string way = "";
+        
+        for (int i = 0; i < _wayToUsers.Length; i++)
+        {
+            if (_wayToUsers[i] != "")
+                _debugWay += _wayToUsers[i];
+           // way = way+""+_wayToUsers;
+      
+        }
+        Debug.Log(_debugWay);
+       // Debug.Log(""+ way);
     }
-
+    
     private void ResumeWay()
     {
-        _wayToUsers = null;
+        _debugWay = "";
+        
+        for (int i = 0; i < _wayToUsers.Length; i++)
+            _wayToUsers[i] = "";
+        
     }
 }
