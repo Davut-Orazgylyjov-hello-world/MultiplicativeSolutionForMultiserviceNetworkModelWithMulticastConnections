@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Connection : MonoBehaviour
@@ -195,6 +193,7 @@ public class Connection : MonoBehaviour
         
         NetworkManager.networkManager.AddedNewSourceInformation( usersAndSourceInformation[spawned].GetComponent<SourceInformation>());
         SaveSourceInformation(usersAndSourceInformation[spawned].GetComponent<SourceInformation>());
+        usersAndSourceInformation[spawned].GetComponent<SourceInformation>().AddMotherConnection(this);
         
         SoundEffects.soundEffects.Created();
         

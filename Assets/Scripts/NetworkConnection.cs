@@ -9,6 +9,7 @@ public class NetworkConnection : MonoBehaviour
     private LineRenderer _lineRendererConnection;
 
     public InfoUI infoUI;
+    public string nameNetworkConnection;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class NetworkConnection : MonoBehaviour
     public void SetInfoUI(string info)
     {
         infoUI.UpdateInfoUI(info);
+        nameNetworkConnection = info;
     }
 
 }

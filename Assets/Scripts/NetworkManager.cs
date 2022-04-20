@@ -97,6 +97,7 @@ public class NetworkManager : MonoBehaviour
             {
                 users[i] = takeUser;
                 UpdateGameUI();
+                NetworkInformation.netInfo.GetAllPhysicalPathsNetwork();
                 break;
             }
         }
@@ -111,6 +112,7 @@ public class NetworkManager : MonoBehaviour
                 users[i] = null;
                 SortUsers();
                 UpdateGameUI();
+                NetworkInformation.netInfo.GetAllPhysicalPathsNetwork();
                 return;
             }
         }
@@ -124,6 +126,7 @@ public class NetworkManager : MonoBehaviour
             {
                 sourceInformation[i] = takeSourceInformation;
                 UpdateGameUI();
+                NetworkInformation.netInfo.GetAllPhysicalPathsNetwork();
                 break;
             }
         }
@@ -138,6 +141,7 @@ public class NetworkManager : MonoBehaviour
                 sourceInformation[i] = null;
                 SortSourceInformation();
                 UpdateGameUI();
+                NetworkInformation.netInfo.GetAllPhysicalPathsNetwork();
                 return;
             }
         }
@@ -151,6 +155,7 @@ public class NetworkManager : MonoBehaviour
             {
                 networkConnection[i] = takeNetworkConnection;
                 UpdateGameUI();
+                NetworkInformation.netInfo.GetAllPhysicalPathsNetwork();
                 break;
             }
         }
@@ -166,6 +171,7 @@ public class NetworkManager : MonoBehaviour
                 networkConnection[i] = null;
                 SortNetworkConnection();
                 UpdateGameUI();
+                NetworkInformation.netInfo.GetAllPhysicalPathsNetwork();
                 return;
             }
         }
@@ -209,7 +215,6 @@ public class NetworkManager : MonoBehaviour
 
             networkConnection[i].SetInfoUI($"{i + 1}");
         }
-
     }
     
     
