@@ -52,6 +52,8 @@ public class NetworkInformation : MonoBehaviour
             if (_netManager.sourceInformation[i] == null)
                 break;
 
+            yield return new WaitForSeconds(0.2f);
+            
             Connection conMother = _netManager.sourceInformation[i].GetMotherConnectionSourceInformation();
             CheckConnectionsMother(conMother);
         }
@@ -62,15 +64,24 @@ public class NetworkInformation : MonoBehaviour
         //check all connections to mother
         for (int i = 0; i < conMother.connections.Length; i++)
         {
-            if (conMother.connections[i] == null)
-                break;
             
+            if (conMother.connections[i] == null)
+            {
+                // Debug.Log("Latest way befor: "+_debugWay);
+                NewWay();
+                Debug.Log("Latest way: "+_debugWay);
+                break;
+            }
+
+            if(i > 0)
+                ResumeWay();
+
             //find network connection
             for (int j = 0; j < conMother.networkConnections.Length; j++)
             {
                 if( conMother.networkConnections[i] == conMother.connections[i].networkConnections[j])
                 {
-                    SaveWay(conMother.connections[i].networkConnections[j].nameNetworkConnection);
+                    SaveWay(conMother.networkConnections[i].nameNetworkConnection);
                     break;
                 }
             }
@@ -82,13 +93,12 @@ public class NetworkInformation : MonoBehaviour
 
     private void RecursiveConnections(Connection conMother, Connection currentConnection, Connection conPrevious)
     {
-        
-     //   SaveWay(currentConnection.networkConnections[].nameNetworkConnection);
+        //   SaveWay(currentConnection.networkConnections[].nameNetworkConnection);
         
         //check have we there users
-        for (int i = 0; i < currentConnection.users.Length; i++)
+        foreach (var user in currentConnection.users)
         {
-            if (currentConnection.users[i] == null)
+            if (user == null)
                 break;
 
             SetWay();
@@ -152,7 +162,18 @@ public class NetworkInformation : MonoBehaviour
     
     private void ResumeWay()
     {
-        _wayToUsers[_debugWay.Length] = "";
-        _debugWay = _debugWay.Remove(_debugWay.Length-1);
+        if(_debugWay.Length > 0)
+            _wayToUsers[_debugWay.Length-1] = "";
+        
+        if(_debugWay.Length > 0)
+            _debugWay = _debugWay.Remove(_debugWay.Length - 1);
+    }
+
+    private void NewWay()
+    {
+        for (int i = 0; i < _wayToUsers.Length; i++)
+            _wayToUsers[i] = "";
+    
+        _debugWay = "";
     }
 }
