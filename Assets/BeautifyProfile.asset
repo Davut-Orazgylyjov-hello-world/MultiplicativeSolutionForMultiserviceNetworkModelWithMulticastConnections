@@ -28,8 +28,8 @@ MonoBehaviour:
   antialiasStrength: 5
   antialiasDepthThreshold: 0.001
   saturate: 2.25
-  contrast: 1.035
-  brightness: 1.05
+  contrast: 1.043
+  brightness: 1
   daltonize: 0
   hardLightIntensity: 0.5
   hardLightBlend: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
   lensDirtThreshold: 0.5
   lensDirtIntensity: 0.9
   lensDirtTexture: {fileID: 2800000, guid: f5c5080de097a4274bab7bc2bf5017f6, type: 3}
-  bloom: 1
+  bloom: 0
   bloomCullingMask:
     serializedVersion: 2
     m_Bits: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
   bloomLayerZBias: 0.0001
   bloomTint: {r: 1, g: 1, b: 1, a: 0}
   anamorphicFlares: 1
-  anamorphicFlaresIntensity: 1
+  anamorphicFlaresIntensity: 0.75
   anamorphicFlaresAntiflicker: 0
   anamorphicFlaresUltra: 0
   anamorphicFlaresUltraResolution: 10
@@ -101,10 +101,10 @@ MonoBehaviour:
   anamorphicFlaresVertical: 0
   anamorphicFlaresTint: {r: 0.5, g: 0.5, b: 1, a: 0}
   anamorphicFlaresBlur: 1
-  depthOfField: 0
+  depthOfField: 1
   depthOfFieldTransparencySupport: 0
   depthOfFieldTargetFocus: {fileID: 0}
-  depthOfFieldAutofocus: 0
+  depthOfFieldAutofocus: 1
   depthofFieldAutofocusViewportPoint: {x: 0.5, y: 0.5}
   depthOfFieldAutofocusLayerMask:
     serializedVersion: 2
@@ -122,8 +122,8 @@ MonoBehaviour:
   depthOfFieldFocusSpeed: 1
   depthOfFieldDownsampling: 2
   depthOfFieldMaxSamples: 4
-  depthOfFieldFocalLength: 0.05
-  depthOfFieldAperture: 2.8
+  depthOfFieldFocalLength: 0.1
+  depthOfFieldAperture: 75
   depthOfFieldForegroundBlur: 1
   depthOfFieldForegroundBlurHQ: 0
   depthOfFieldForegroundBlurHQSpread: 16
@@ -137,7 +137,7 @@ MonoBehaviour:
   depthOfFieldTransparencyLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  eyeAdaptation: 1
+  eyeAdaptation: 0
   eyeAdaptationMinExposure: 0.2
   eyeAdaptationMaxExposure: 5
   eyeAdaptationSpeedToLight: 0.4
