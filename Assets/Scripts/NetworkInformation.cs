@@ -13,7 +13,7 @@ public class NetworkInformation : MonoBehaviour
     private NetworkManager _netManager;
 
     public string[] _wayToUsers;
-    private string _debugWay;
+    public string _debugWay;
 
 
     private void Awake()
@@ -139,6 +139,7 @@ public class NetworkInformation : MonoBehaviour
             if (_wayToUsers[i] == "")
             {
                 _wayToUsers[i] = way;
+                _debugWay += _wayToUsers[i];
                 break;
             }
         }
@@ -146,25 +147,12 @@ public class NetworkInformation : MonoBehaviour
     
     private void SetWay()
     {
-       // string way = "";
-        
-        for (int i = 0; i < _wayToUsers.Length; i++)
-        {
-            if (_wayToUsers[i] != "")
-                _debugWay += _wayToUsers[i];
-           // way = way+""+_wayToUsers;
-      
-        }
         Debug.Log(_debugWay);
-       // Debug.Log(""+ way);
     }
     
     private void ResumeWay()
     {
-        _debugWay = "";
-        
-        for (int i = 0; i < _wayToUsers.Length; i++)
-            _wayToUsers[i] = "";
-        
+        _wayToUsers[_debugWay.Length] = "";
+        _debugWay = _debugWay.Remove(_debugWay.Length-1);
     }
 }

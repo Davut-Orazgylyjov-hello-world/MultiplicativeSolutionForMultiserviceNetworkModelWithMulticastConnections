@@ -1590,7 +1590,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54415757aaddf4b8a9cd7122fd120cc6, type: 3}
   m_Name: 
@@ -1784,7 +1784,7 @@ MonoBehaviour:
   _pixelateDownscale: 0
   _antialiasStrength: 5
   _antialiasDepthThreshold: 0.001
-  isDirty: 1
+  isDirty: 0
   bMat: {fileID: 0}
 --- !u!1001 &991630302
 PrefabInstance:
@@ -2966,7 +2966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d61d569150f4e49bbace58f1033f65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: 1
+  light: 0
 --- !u!4 &1594818002
 Transform:
   m_ObjectHideFlags: 0
