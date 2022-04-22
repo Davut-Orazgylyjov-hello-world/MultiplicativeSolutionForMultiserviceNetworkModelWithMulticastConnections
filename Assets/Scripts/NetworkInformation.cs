@@ -50,6 +50,8 @@ public class NetworkInformation : MonoBehaviour
 
         lPs = "";
 
+        HUD.hud.RemoveOldSl();
+        
         for (int i = 0; i < _netManager.sourceInformation.Length; i++)
         {
             if (_netManager.sourceInformation[i] == null)
@@ -60,6 +62,7 @@ public class NetworkInformation : MonoBehaviour
             Connection conMother = _netManager.sourceInformation[i].GetMotherConnectionSourceInformation();
             CheckConnectionsMother(conMother);
             lPs += ",";
+            HUD.hud.NextSourceSl();
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -71,7 +74,6 @@ public class NetworkInformation : MonoBehaviour
         //check all connections to mother
         for (int i = 0; i < conMother.connections.Length; i++)
         {
-
             if (conMother.connections[i] == null)
             {
                 // Debug.Log("Latest way befor: "+_debugWay);
@@ -82,7 +84,6 @@ public class NetworkInformation : MonoBehaviour
 
             if (i > 0)
                 ResumeWay();
-
 
             //find network connection
             for (int j = 0; j < conMother.networkConnections.Length; j++)
@@ -101,13 +102,28 @@ public class NetworkInformation : MonoBehaviour
 
     private void RecursiveConnections(Connection conMother, Connection currentConnection, Connection conPrevious)
     {
-        //   SaveWay(currentConnection.networkConnections[].nameNetworkConnection);
-
         //check have we there users
         foreach (var user in currentConnection.users)
         {
             if (user == null)
                 break;
+            
+            // find S^l
+            for (int i = 0; i < currentConnection.networkConnections.Length; i++)
+            {
+                if (currentConnection.networkConnections[i] == null)
+                    break;
+
+                for (int j = 0; j < currentConnection.networkConnections.Length; j++)
+                {
+                    if (currentConnection.networkConnections[i] ==
+                        conPrevious.networkConnections[j])
+                    {
+                        ShowSl($"S^{currentConnection.networkConnections[i].nameNetworkConnection} = {user.nameUser}");
+                        break;
+                    }
+                }
+            }
 
             SetWay();
         }
@@ -190,5 +206,10 @@ public class NetworkInformation : MonoBehaviour
     private void ShowLpS()
     {
         HUD.hud.SetLpS(lPs);
+    }
+
+    private void ShowSl(string sL)
+    {
+        HUD.hud.SetSl(sL);
     }
 }

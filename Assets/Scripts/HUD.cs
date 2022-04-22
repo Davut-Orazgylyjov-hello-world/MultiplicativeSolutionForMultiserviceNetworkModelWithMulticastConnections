@@ -25,7 +25,7 @@ public class HUD : MonoBehaviour
 
     public TextMeshProUGUI[] infoHUD;
 
-    public InfoHUD infoLpS, infoPs;
+    public InfoHUD infoLpS, infoPs, infoSl;
 
     private void Awake()
     {
@@ -86,7 +86,19 @@ public class HUD : MonoBehaviour
             }
         }
     }
-    
-    
 
+    public void SetSl(string sL)
+    {
+        infoSl.SetCurrentSourceInfo(sL);
+    }
+
+    public void RemoveOldSl()
+    {
+        infoSl.RemoveOldListTextHUD();
+    }
+
+    public void NextSourceSl()
+    {
+        infoSl.NextSource();
+    }
 }
