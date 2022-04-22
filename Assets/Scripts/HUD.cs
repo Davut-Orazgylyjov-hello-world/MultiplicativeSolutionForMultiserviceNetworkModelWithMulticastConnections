@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 
 public enum TypeHUD
@@ -25,11 +26,33 @@ public class HUD : MonoBehaviour
 
     public TextMeshProUGUI[] infoHUD;
 
-    public InfoHUD infoLpS, infoPs, infoSl;
+    //public InfoHUD[] infoLpS, infoPs, infoSl;
+    public InfoGroup[] infoGroups;
+    public GameObject prefabInfoGroups;
+    public Transform spawnSourceInfo;
+    
+    public int _numSourceSl = 0;
 
     private void Awake()
     {
         hud = this;
+    }
+
+    public void NewInfoGroups()
+    {
+        for (int i = 0; i < infoGroups.Length; i++)
+        {
+            if (infoGroups[i] == null)
+                break;
+
+            Destroy(infoGroups[i].gameObject);
+            infoGroups[i] = null;
+        }
+
+        for (int i = 0; i < NetworkInformation.netInfo.s; i++)
+        {
+            infoGroups[i] = Instantiate(prefabInfoGroups, spawnSourceInfo).GetComponent<InfoGroup>();
+        }
     }
 
     public void SetHUD(string info, TypeHUD type)
@@ -49,15 +72,24 @@ public class HUD : MonoBehaviour
         string showPs = "";
 
 
-        infoLpS.RemoveOldListTextHUD();
-        infoPs.RemoveOldListTextHUD();
+        for (int i = 0; i < infoGroups.Length; i++)
+        {
+            if(infoGroups[i]==null)
+                break;
+            
+            infoGroups[i].RemoveInfo(TypeHUD.LpS);
+     
+            infoGroups[i].RemoveInfo(TypeHUD.Ps);
+        }
         
+
+
         for (int i = 0; i < lPs.Length; i++)
         {
             if (lPs[i] == next)
             {
                 //show all LpS
-                infoLpS.SetCurrentSourceInfo($"L^{numP}_{numS} = [{showLpS}]");
+                infoGroups[numS-1].SetInfo(TypeHUD.LpS,$"L^{numP}_{numS} = [{showLpS}]");
 
                 showPs += " " + numP +" ";
                 
@@ -68,13 +100,13 @@ public class HUD : MonoBehaviour
             if (lPs[i] == end)
             {
                 //show all Ps
-                infoPs.SetCurrentSourceInfo($"P{numS} = [{showPs}]");
-                infoPs.NextSource();
+                infoGroups[numS-1].SetInfo(TypeHUD.Ps,$"P{numS} = [{showPs}]");
+                // infoPs[numS-1].NextSource();
                 showPs = "";
                 
                 numP = 1;
                 numS++;
-                infoLpS.NextSource();
+                // infoLpS[numS-1].NextSource();
                 continue;
             }
 
@@ -89,16 +121,16 @@ public class HUD : MonoBehaviour
 
     public void SetSl(string sL)
     {
-        infoSl.SetCurrentSourceInfo(sL);
+        infoGroups[_numSourceSl].SetInfo(TypeHUD.Sl,sL);
     }
 
     public void RemoveOldSl()
     {
-        infoSl.RemoveOldListTextHUD();
+        _numSourceSl = 0;
     }
 
     public void NextSourceSl()
     {
-        infoSl.NextSource();
+        _numSourceSl++;
     }
 }

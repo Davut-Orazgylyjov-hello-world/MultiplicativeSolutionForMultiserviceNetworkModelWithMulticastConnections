@@ -36,6 +36,7 @@ public class NetworkInformation : MonoBehaviour
     public void SetS(int num)
     {
         s = num;
+        HUD.hud.NewInfoGroups();
         HUD.hud.SetHUD($"S = [{num}]", TypeHUD.S);
     }
 
@@ -51,6 +52,8 @@ public class NetworkInformation : MonoBehaviour
         lPs = "";
 
         HUD.hud.RemoveOldSl();
+       HUD.hud.NewInfoGroups();
+        yield return new WaitForSeconds(0.1f);
         
         for (int i = 0; i < _netManager.sourceInformation.Length; i++)
         {
