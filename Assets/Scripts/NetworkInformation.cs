@@ -9,6 +9,7 @@ public class NetworkInformation : MonoBehaviour
 
     public int l;
     public int s;
+    public string lPs;
 
     private NetworkManager _netManager;
 
@@ -47,16 +48,22 @@ public class NetworkInformation : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
+        lPs = "";
+
         for (int i = 0; i < _netManager.sourceInformation.Length; i++)
         {
             if (_netManager.sourceInformation[i] == null)
                 break;
 
             yield return new WaitForSeconds(0.2f);
-            
+
             Connection conMother = _netManager.sourceInformation[i].GetMotherConnectionSourceInformation();
             CheckConnectionsMother(conMother);
+            lPs += ",";
         }
+
+        yield return new WaitForSeconds(0.2f);
+        ShowLpS();
     }
 
     private void CheckConnectionsMother(Connection conMother)
@@ -64,28 +71,29 @@ public class NetworkInformation : MonoBehaviour
         //check all connections to mother
         for (int i = 0; i < conMother.connections.Length; i++)
         {
-            
+
             if (conMother.connections[i] == null)
             {
                 // Debug.Log("Latest way befor: "+_debugWay);
                 NewWay();
-                Debug.Log("Latest way: "+_debugWay);
+                Debug.Log("Latest way: " + _debugWay);
                 break;
             }
 
-            if(i > 0)
+            if (i > 0)
                 ResumeWay();
+
 
             //find network connection
             for (int j = 0; j < conMother.networkConnections.Length; j++)
             {
-                if( conMother.networkConnections[i] == conMother.connections[i].networkConnections[j])
+                if (conMother.networkConnections[i] == conMother.connections[i].networkConnections[j])
                 {
                     SaveWay(conMother.networkConnections[i].nameNetworkConnection);
                     break;
                 }
             }
-            
+
             RecursiveConnections(conMother, conMother.connections[i], conMother);
         }
     }
@@ -94,7 +102,7 @@ public class NetworkInformation : MonoBehaviour
     private void RecursiveConnections(Connection conMother, Connection currentConnection, Connection conPrevious)
     {
         //   SaveWay(currentConnection.networkConnections[].nameNetworkConnection);
-        
+
         //check have we there users
         foreach (var user in currentConnection.users)
         {
@@ -114,7 +122,7 @@ public class NetworkInformation : MonoBehaviour
 
             for (int j = 0; j < currentConnection.networkConnections.Length; j++)
             {
-                if( currentConnection.networkConnections[i] == currentConnection.connections[i].networkConnections[j])
+                if (currentConnection.networkConnections[i] == currentConnection.connections[i].networkConnections[j])
                 {
                     if (CanGoToWay(currentConnection.networkConnections[i]))
                     {
@@ -154,18 +162,19 @@ public class NetworkInformation : MonoBehaviour
             }
         }
     }
-    
+
     private void SetWay()
     {
         Debug.Log(_debugWay);
+        lPs += _debugWay + "/";
     }
-    
+
     private void ResumeWay()
     {
-        if(_debugWay.Length > 0)
-            _wayToUsers[_debugWay.Length-1] = "";
-        
-        if(_debugWay.Length > 0)
+        if (_debugWay.Length > 0)
+            _wayToUsers[_debugWay.Length - 1] = "";
+
+        if (_debugWay.Length > 0)
             _debugWay = _debugWay.Remove(_debugWay.Length - 1);
     }
 
@@ -173,7 +182,13 @@ public class NetworkInformation : MonoBehaviour
     {
         for (int i = 0; i < _wayToUsers.Length; i++)
             _wayToUsers[i] = "";
-    
+
         _debugWay = "";
+    }
+
+
+    private void ShowLpS()
+    {
+        HUD.hud.SetLpS(lPs);
     }
 }
