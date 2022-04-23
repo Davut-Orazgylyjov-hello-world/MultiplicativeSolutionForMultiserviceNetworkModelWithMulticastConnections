@@ -53,14 +53,14 @@ public class NetworkInformation : MonoBehaviour
 
         HUD.hud.RemoveOldSl();
        HUD.hud.NewInfoGroups();
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSeconds(0.1f);
         
         for (int i = 0; i < _netManager.sourceInformation.Length; i++)
         {
             if (_netManager.sourceInformation[i] == null)
                 break;
 
-            yield return new WaitForSeconds(0.2f);
+            //yield return new WaitForSeconds(0.2f);
 
             Connection conMother = _netManager.sourceInformation[i].GetMotherConnectionSourceInformation();
             CheckConnectionsMother(conMother);
@@ -68,7 +68,7 @@ public class NetworkInformation : MonoBehaviour
             HUD.hud.NextSourceSl();
         }
 
-        yield return new WaitForSeconds(0.2f);
+        //yield return new WaitForSeconds(0.2f);
         ShowLpS();
     }
 
@@ -79,7 +79,6 @@ public class NetworkInformation : MonoBehaviour
         {
             if (conMother.connections[i] == null)
             {
-                // Debug.Log("Latest way befor: "+_debugWay);
                 NewWay();
                 Debug.Log("Latest way: " + _debugWay);
                 break;

@@ -28,6 +28,7 @@ public class HUD : MonoBehaviour
 
     //public InfoHUD[] infoLpS, infoPs, infoSl;
     public InfoGroup[] infoGroups;
+    public GameObject[] buttonsChangeInfoGroups;
     public GameObject prefabInfoGroups;
     public Transform spawnSourceInfo;
     
@@ -47,12 +48,34 @@ public class HUD : MonoBehaviour
 
             Destroy(infoGroups[i].gameObject);
             infoGroups[i] = null;
+            
+            buttonsChangeInfoGroups[i].SetActive(false);
         }
 
         for (int i = 0; i < NetworkInformation.netInfo.s; i++)
         {
             infoGroups[i] = Instantiate(prefabInfoGroups, spawnSourceInfo).GetComponent<InfoGroup>();
+
+            if (i == 0)
+                infoGroups[i].GetComponent<CanvasGroup>().alpha = 1;
+            else
+                infoGroups[i].GetComponent<CanvasGroup>().alpha = 0;
+
+            buttonsChangeInfoGroups[i].SetActive(true);
         }
+    }
+
+    public void ChangeInfoGroups(int num)
+    {
+        for (int i = 0; i < infoGroups.Length; i++)
+        {
+            if (infoGroups[i] == null)
+                break;
+
+            infoGroups[i].GetComponent<CanvasGroup>().alpha = 0;
+        }
+        
+        infoGroups[num].GetComponent<CanvasGroup>().alpha = 1;
     }
 
     public void SetHUD(string info, TypeHUD type)
