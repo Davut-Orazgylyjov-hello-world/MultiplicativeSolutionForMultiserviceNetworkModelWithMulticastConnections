@@ -77,12 +77,11 @@ public class NetworkInformation : MonoBehaviour
         //check all connections to mother
         for (int i = 0; i < conMother.connections.Length; i++)
         {
+            //Debug.Log("Latest way: " + _debugWay);
+            NewWay();
+            
             if (conMother.connections[i] == null)
-            {
-                NewWay();
-                Debug.Log("Latest way: " + _debugWay);
                 break;
-            }
 
             if (i > 0)
                 ResumeWay();
@@ -144,11 +143,12 @@ public class NetworkInformation : MonoBehaviour
                 {
                     if (CanGoToWay(currentConnection.networkConnections[i]))
                     {
-                        SaveWay(currentConnection.networkConnections[i].nameNetworkConnection);
-
                         if (conMother != currentConnection.connections[i] &&
                             currentConnection.connections[i] != conPrevious)
+                        {
+                            SaveWay(currentConnection.networkConnections[i].nameNetworkConnection);
                             RecursiveConnections(conMother, currentConnection.connections[i], currentConnection);
+                        }
 
                         break;
                     }
