@@ -21,7 +21,7 @@ public class Connection : MonoBehaviour
     [Header("Users & SourceInformation")] public GameObject[] usersAndSourceInformation;
     public User[] users;
     public SourceInformation[] sourceInformation;
-    
+
     public GameObject prefabUser;
     public GameObject prefabSourceInformation;
     public Transform spawn;
@@ -32,9 +32,35 @@ public class Connection : MonoBehaviour
 
     public void OpenUIWindow()
     {
+        bool haveConnections = false;
+        bool haveSources = false;
+        bool haveUsers = false;
+
+        for (int i = 0; i < connections.Length; i++)
+            if (connections[i] != null)
+            {
+                haveConnections = true;
+                break;
+            }
+
+        for (int i = 0; i < sourceInformation.Length; i++)
+            if (sourceInformation[i] != null)
+            {
+                haveSources = true;
+                break;
+            }
+
+        for (int i = 0; i < users.Length; i++)
+            if (users[i] != null)
+            {
+                haveUsers = true;
+                break;
+            }
+
+
 
         GameObject windowUI = Instantiate(prefabUIWindow, spawnUI);
-        windowUI.GetComponent<ConnectionUIWindow>().AddMotherConnection(this);
+        windowUI.GetComponent<ConnectionUIWindow>().AddMotherConnection(this, haveConnections, haveSources, haveUsers);
 
 
         NetworkManager.networkManager.TakeUIWindowConnection(windowUI);
@@ -69,7 +95,7 @@ public class Connection : MonoBehaviour
                 }
         }
 
-        newConnection.TakeConnection(SetConnection(newConnection),this);
+        newConnection.TakeConnection(SetConnection(newConnection), this);
         SoundEffects.soundEffects.PlayConnection();
 
         NetworkManager.networkManager.noCreateUIMenu = false;
@@ -93,12 +119,12 @@ public class Connection : MonoBehaviour
                 networkConnections[i].aConnection = transform;
                 networkConnections[i].bConnection = connections[i].transform;
                 networkConnections[i].Connection();
-                return  networkConnections[i];
+                return networkConnections[i];
             }
         }
-        
+
         Debug.LogError("Need more - networkConnections[N]");
-        return  networkConnections[0];
+        return networkConnections[0];
     }
 
     private void TakeConnection(NetworkConnection netConnect, Connection setConnection)
@@ -162,12 +188,12 @@ public class Connection : MonoBehaviour
     {
         usersAndSourceInformation[spawned] = Instantiate(prefabUser, spawn);
         usersAndSourceInformation[spawned].transform.localPosition = new Vector3(0, spawned + 1.5f, 0);
-        
+
         NetworkManager.networkManager.AddedNewUser(usersAndSourceInformation[spawned].GetComponent<User>());
         SaveUser(usersAndSourceInformation[spawned].GetComponent<User>());
 
         SoundEffects.soundEffects.Created();
-        
+
         spawned++;
     }
 
@@ -184,19 +210,20 @@ public class Connection : MonoBehaviour
         }
     }
 
-   
+
 
     public void AddSourceInformation()
     {
         usersAndSourceInformation[spawned] = Instantiate(prefabSourceInformation, spawn);
         usersAndSourceInformation[spawned].transform.localPosition = new Vector3(0, spawned + 1.5f, 0);
-        
-        NetworkManager.networkManager.AddedNewSourceInformation( usersAndSourceInformation[spawned].GetComponent<SourceInformation>());
+
+        NetworkManager.networkManager.AddedNewSourceInformation(usersAndSourceInformation[spawned]
+            .GetComponent<SourceInformation>());
         SaveSourceInformation(usersAndSourceInformation[spawned].GetComponent<SourceInformation>());
         usersAndSourceInformation[spawned].GetComponent<SourceInformation>().AddMotherConnection(this);
-        
+
         SoundEffects.soundEffects.Created();
-        
+
         spawned++;
     }
 
@@ -212,7 +239,7 @@ public class Connection : MonoBehaviour
             }
         }
     }
-    
+
     public void DeleteUser()
     {
         //find user
@@ -221,22 +248,22 @@ public class Connection : MonoBehaviour
             if (users[i] != null)
             {
                 NetworkManager.networkManager.RemoveUser(users[i]);
-                
+
                 for (int j = 0; j < usersAndSourceInformation.Length; j++)
                     if (usersAndSourceInformation[j] == users[i].gameObject)
                         usersAndSourceInformation[j] = null;
-                
-                Destroy(users[i].gameObject);    
-                
+
+                Destroy(users[i].gameObject);
+
                 users[i] = null;
-                
+
                 StreamlineUsersAndSourceInformation();
                 Debug.Log("Delete user");
                 return;
             }
         }
     }
-    
+
     public void DeleteSourceInformation()
     {
         //find sourceInformation
@@ -245,15 +272,15 @@ public class Connection : MonoBehaviour
             if (sourceInformation[i] != null)
             {
                 NetworkManager.networkManager.RemoveSourceInformation(sourceInformation[i]);
-                
+
                 for (int j = 0; j < usersAndSourceInformation.Length; j++)
                     if (usersAndSourceInformation[j] == sourceInformation[i].gameObject)
                         usersAndSourceInformation[j] = null;
-         
+
                 Destroy(sourceInformation[i].gameObject);
-                
+
                 sourceInformation[i] = null;
-                
+
                 StreamlineUsersAndSourceInformation();
                 Debug.Log("Delete Source Information");
                 return;
@@ -269,11 +296,12 @@ public class Connection : MonoBehaviour
             if (usersAndSourceInformation[i] != null)
             {
                 int nearestFree = NullUsersAndSourceInformation();
-                
+
                 if (i > nearestFree)
                 {
                     usersAndSourceInformation[nearestFree] = usersAndSourceInformation[i];
-                    usersAndSourceInformation[nearestFree].transform.localPosition = new Vector3(0, nearestFree + 1.5f, 0);
+                    usersAndSourceInformation[nearestFree].transform.localPosition =
+                        new Vector3(0, nearestFree + 1.5f, 0);
                     usersAndSourceInformation[i] = null;
                 }
             }
@@ -288,7 +316,7 @@ public class Connection : MonoBehaviour
         for (int i = 0; i < usersAndSourceInformation.Length; i++)
             if (usersAndSourceInformation[i] == null)
                 return i;
-        
+
         Debug.LogError("no more places");
         return -1;
     }

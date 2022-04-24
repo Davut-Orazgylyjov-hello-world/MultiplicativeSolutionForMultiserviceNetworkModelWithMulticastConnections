@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class ConnectionUIWindow : MonoBehaviour
 {
-    private Connection _motherConnection; 
+    public GameObject
+        buttonDisconnectNet,
+        buttonRemoveUser,
+        buttonRemoveSource;
+
+
+    private Connection _motherConnection;
     private CursorController _cursorController;
 
 
-    public void AddMotherConnection(Connection connection)
+    public void AddMotherConnection(Connection connection, bool haveConnections, bool haveSources, bool haveUsers)
     {
         _motherConnection = connection;
         _cursorController = CursorController.cursorController;
+
+        buttonDisconnectNet.SetActive(haveConnections);
+        buttonRemoveUser.SetActive(haveUsers);
+        buttonRemoveSource.SetActive(haveSources);
     }
-    
-    
+
+
 
     public void DeselectUIWindow()
     {
         _motherConnection.SelectedActive(false);
     }
-    
+
     public void CommandConnectNet()
     {
         Debug.Log("ConnectNet");
@@ -30,10 +40,10 @@ public class ConnectionUIWindow : MonoBehaviour
         NetworkManager.networkManager.noCreateUIMenu = true;
         NetworkManager.networkManager.connectionUsing = _motherConnection;
         NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Create;
-        
+
         EndUIWindowsConnection();
     }
-    
+
     public void CommandDisconnectNet()
     {
         if (_motherConnection.HaveConnections())
@@ -45,7 +55,7 @@ public class ConnectionUIWindow : MonoBehaviour
             NetworkManager.networkManager.noCreateUIMenu = true;
             NetworkManager.networkManager.connectionUsing = _motherConnection;
             NetworkManager.networkManager.stateNetworkConnection = ConnectionState.Remove;
-            
+
             EndUIWindowsConnection();
         }
         else
@@ -53,39 +63,40 @@ public class ConnectionUIWindow : MonoBehaviour
             SoundEffects.soundEffects.PlayError();
         }
     }
-    
-    
+
+
     public void CommandAddUser()
     {
         _motherConnection.AddUser();
-        
+
         EndUIWindowsConnection();
     }
-    
+
     public void CommandAddSource()
     {
         _motherConnection.AddSourceInformation();
-        
+
         EndUIWindowsConnection();
     }
-    
+
     public void CommandDeleteUser()
     {
         _motherConnection.DeleteUser();
-        
+
         EndUIWindowsConnection();
     }
+
     public void CommandDeleteSource()
     {
         _motherConnection.DeleteSourceInformation();
-        
+
         EndUIWindowsConnection();
     }
 
     private void EndUIWindowsConnection()
     {
         NetworkManager.networkManager.RemoveUIWindowConnection();
-        
+
         _cursorController.StopCoroutineDelayRemoveUIWindow();
     }
 }

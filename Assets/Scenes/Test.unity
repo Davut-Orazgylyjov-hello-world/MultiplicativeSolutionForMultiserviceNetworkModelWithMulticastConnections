@@ -14,18 +14,18 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
+  m_Fog: 1
+  m_FogColor: {r: 0.14343181, g: 0.20253947, b: 0.3207547, a: 1}
+  m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.035601325, g: 0.038204376, b: 0.035601325, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_AmbientMode: 3
+  m_SubtractiveShadowColor: {r: 0.34795302, g: 0.40720376, b: 0.509434, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -33,11 +33,11 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 256
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 313810735}
   m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -12344,7 +12344,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54415757aaddf4b8a9cd7122fd120cc6, type: 3}
   m_Name: 
@@ -12435,13 +12435,13 @@ MonoBehaviour:
   _bloomLayerZBias: 0.0001
   _preRenderCameraEvent: 0
   _anamorphicFlares: 1
-  _anamorphicFlaresIntensity: 0.75
-  _anamorphicFlaresAntiflicker: 0
-  _anamorphicFlaresUltra: 0
+  _anamorphicFlaresIntensity: 1
+  _anamorphicFlaresAntiflicker: 1
+  _anamorphicFlaresUltra: 1
   _anamorphicFlaresUltraResolution: 10
-  _anamorphicFlaresThreshold: 0.75
-  _anamorphicFlaresSpread: 1
-  _anamorphicFlaresVertical: 0
+  _anamorphicFlaresThreshold: 0.5
+  _anamorphicFlaresSpread: 0.1
+  _anamorphicFlaresVertical: 1
   _anamorphicFlaresTint: {r: 0.5, g: 0.5, b: 1, a: 0}
   _anamorphicFlaresBlur: 1
   _depthOfField: 1
@@ -22321,6 +22321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d61d569150f4e49bbace58f1033f65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxFPS: 60
   light: 1
 --- !u!4 &1594818002
 Transform:

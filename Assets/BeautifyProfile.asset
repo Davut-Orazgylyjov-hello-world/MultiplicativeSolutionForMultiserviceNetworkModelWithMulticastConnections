@@ -92,13 +92,13 @@ MonoBehaviour:
   bloomLayerZBias: 0.0001
   bloomTint: {r: 1, g: 1, b: 1, a: 0}
   anamorphicFlares: 1
-  anamorphicFlaresIntensity: 0.75
-  anamorphicFlaresAntiflicker: 0
-  anamorphicFlaresUltra: 0
+  anamorphicFlaresIntensity: 1
+  anamorphicFlaresAntiflicker: 1
+  anamorphicFlaresUltra: 1
   anamorphicFlaresUltraResolution: 10
-  anamorphicFlaresThreshold: 0.75
-  anamorphicFlaresSpread: 1
-  anamorphicFlaresVertical: 0
+  anamorphicFlaresThreshold: 0.5
+  anamorphicFlaresSpread: 0.1
+  anamorphicFlaresVertical: 1
   anamorphicFlaresTint: {r: 0.5, g: 0.5, b: 1, a: 0}
   anamorphicFlaresBlur: 1
   depthOfField: 1
