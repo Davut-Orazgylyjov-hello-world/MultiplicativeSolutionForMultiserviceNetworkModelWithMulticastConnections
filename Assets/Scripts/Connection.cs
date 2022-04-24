@@ -258,6 +258,8 @@ public class Connection : MonoBehaviour
                 users[i] = null;
 
                 StreamlineUsersAndSourceInformation();
+                SoundEffects.soundEffects.PlayDisconnection();
+                
                 Debug.Log("Delete user");
                 return;
             }
@@ -282,6 +284,8 @@ public class Connection : MonoBehaviour
                 sourceInformation[i] = null;
 
                 StreamlineUsersAndSourceInformation();
+                SoundEffects.soundEffects.PlayDisconnection();
+                
                 Debug.Log("Delete Source Information");
                 return;
             }
