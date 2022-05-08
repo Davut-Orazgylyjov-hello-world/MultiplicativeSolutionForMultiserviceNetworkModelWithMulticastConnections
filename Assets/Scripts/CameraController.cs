@@ -32,14 +32,11 @@ public class CameraController : MonoBehaviour
         System.Type vector2Type = Vector2.zero.GetType();
  
         string buttonControlPath = "/Mouse/leftButton";
-        //string deltaControlPath = "/Mouse/delta";
- 
+
         if (context.started)
         {
             if (context.control.path == buttonControlPath)
             {
-             //   Debug.Log("Button Pressed Down Event - called once when button pressed");
- 
                 Ray dragStartRay = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
                 Plane dragStartPlane = new Plane(Vector3.up, Vector3.zero);
                 float dragStartEntry;
@@ -54,8 +51,6 @@ public class CameraController : MonoBehaviour
         {
             if (context.control.path == buttonControlPath)
             {
-               // Debug.Log("Button Hold Down - called continously till the button is pressed");
- 
                 Ray dragCurrentRay = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
                 Plane dragCurrentPlane = new Plane(Vector3.up, Vector3.zero);
                 float dragCurrentEntry;

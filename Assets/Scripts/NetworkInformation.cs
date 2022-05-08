@@ -52,15 +52,12 @@ public class NetworkInformation : MonoBehaviour
         lPs = "";
 
         HUD.hud.RemoveOldSl();
-       HUD.hud.NewInfoGroups();
-        //yield return new WaitForSeconds(0.1f);
-        
+        HUD.hud.NewInfoGroups();
+
         for (int i = 0; i < _netManager.sourceInformation.Length; i++)
         {
             if (_netManager.sourceInformation[i] == null)
                 break;
-
-            //yield return new WaitForSeconds(0.2f);
 
             Connection conMother = _netManager.sourceInformation[i].GetMotherConnectionSourceInformation();
             CheckConnectionsMother(conMother);
@@ -68,7 +65,6 @@ public class NetworkInformation : MonoBehaviour
             HUD.hud.NextSourceSl();
         }
 
-        //yield return new WaitForSeconds(0.2f);
         ShowLpS();
     }
 
